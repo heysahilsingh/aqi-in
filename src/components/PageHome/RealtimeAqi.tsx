@@ -1,6 +1,7 @@
 import React from "react";
 import AqiScale from "./AqiScale";
 import AqiMeter from "../AqiMeter";
+import AQI_STATUSES from "@/constants/AQI_STATUSES";
 
 type Props = {
   areaName: string;
@@ -9,6 +10,7 @@ type Props = {
   windSpeed: string;
   weatherMsg: string;
   aqiMsg: string;
+  aqi: number;
   aqiModelImgUrl: string;
   temprature: string;
   humidity: string;
@@ -24,6 +26,10 @@ type Props = {
 };
 
 const RealtimeAqi = (props: Props) => {
+  const getColorById = (
+    AQI_STATUSES.find((status) => status.id === props.aqiStatus) || {}
+  ).color;
+
   return (
     <div className="flex flex-col w-[1070px] -mt-28">
       <div className="tab-switcher flex items-center font-bold rounded-t-lg bg-[#F1F1F1] w-fit">
@@ -121,7 +127,7 @@ const RealtimeAqi = (props: Props) => {
             </span>
           </div>
           <div className="col2 flex gap-4 items-center justify-end grow text-[13px]">
-            <div className="mr-4 locate-me flex items-center px-3.5 py-1.5 gap-2 border-2 border-[#4BA9FF] text-[#4BA9FF] rounded-lg">
+            <div className="mr-4 locate-me flex items-center px-3.5 py-1.5 gap-2 border border-[#4BA9FF] text-[#4BA9FF] rounded-lg">
               <svg
                 width="14"
                 height="14"
@@ -187,8 +193,10 @@ const RealtimeAqi = (props: Props) => {
         <div className="tab-data flex flex-col gap-1">
           <div className="flex gap-6">
             <div className="col1 aqi grow flex gap-4 items-center bg-[#F7F7FC] rounded-lg p-4">
-              <AqiMeter />
-              <div className="live flex flex-col gap-2.5 leading-none min-w-fit">
+              <div className="w-[135px] -mt-16">
+                <AqiMeter value={props.aqi} color={getColorById} />
+              </div>
+              <div className="live flex flex-col gap-2 leading-none min-w-fit">
                 <div className="flex gap-2 items-center">
                   <svg
                     width="6"
@@ -201,7 +209,10 @@ const RealtimeAqi = (props: Props) => {
                   </svg>
                   <span className="text-[#667580] text-[12px]">Live AQI</span>
                 </div>
-                <div className="status font-bold text-[24px] text-[#59B61F] capitalize">
+                <div
+                  className="status text-transparent font-extrabold text-[24px] bg-clip-text capitalize"
+                  style={{ backgroundColor: getColorById }}
+                >
                   {props.aqiStatus}
                 </div>
                 <span className="pt-2 text-[12px] text-[#859199]">
@@ -260,7 +271,7 @@ const RealtimeAqi = (props: Props) => {
                   </span>
                 </div>
               </div>
-              <div className="w-[1px] h-full opacity-30 bg-[#BEBEBE] mx-10"></div>
+              <div className="w-[1px] h-full opacity-30 bg-[#BEBEBE] mx-5"></div>
               <div className="wind flex flex-col justify-between py-1 h-full">
                 <div className="flex gap-2 items-center">
                   <div className="icon">
@@ -317,7 +328,7 @@ const RealtimeAqi = (props: Props) => {
               </div>
             </div>
           </div>
-          <AqiScale className="w-[60%]" status={props.aqiStatus} />
+          <AqiScale className="max-w-[60%]" status={props.aqiStatus} />
         </div>
       </div>
     </div>

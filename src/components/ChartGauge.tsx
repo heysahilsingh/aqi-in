@@ -6,7 +6,7 @@ import { Doughnut } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
-  cutout: "90%",
+  cutout: "87%",
   plugins: {
     legend: {
       display: false,
@@ -23,10 +23,28 @@ type Props = {
   hideBg?: true;
 };
 
-const AqiMeter = (props: Props) => {
+function ChartGauge(props: Props) {
   const color = props.color || "#000";
   const bgColor = props.hideBg ? "transparent" : "#E6E6E6";
   const value = props.value || 0;
+
+  const chartText = {
+    id: "chartText",
+    beforeDatasetsDraw(chart: ChartJS) {
+      const { ctx } = chart;
+
+      const x = chart.getDatasetMeta(0).data[0].x;
+      const y = chart.getDatasetMeta(0).data[0].y;
+
+      ctx.save();
+      ctx.fillStyle = "#31343D";
+      ctx.textAlign = "center";
+      // @ts-ignore
+      ctx.textBaseline = "baseline";
+      ctx.font = "bold 13px sans-serif";
+      ctx.fillText(String(value), x, y);
+    },
+  };
 
   const data = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -36,24 +54,13 @@ const AqiMeter = (props: Props) => {
         data: [value, 100 - value],
         backgroundColor: [color, bgColor],
         borderWidth: 0,
-        circumference: 250,
-        rotation: 235,
+        circumference: 180,
+        rotation: 270,
       },
     ],
   };
 
-  return (
-    <div className="relative">
-      <Doughnut options={options} data={data} />
-      <div
-        className="absolute top-0 left-2/4 -translate-x-2/4 translate-y-[28%] flex flex-col items-center justify-center leading-none w-[105px] text-white aspect-square rounded-full border-4 border-white shadow-[0px_7px_20px_0_rgba(0,0,0,0.2)]"
-        style={{ backgroundColor: color }}
-      >
-        <span className="text-[38px] font-bold">{value}</span>
-        <span className="text-[12px]">AQI</span>
-      </div>
-    </div>
-  );
-};
+  return <Doughnut options={options} data={data} plugins={[chartText]} />;
+}
 
-export default AqiMeter;
+export default ChartGauge;

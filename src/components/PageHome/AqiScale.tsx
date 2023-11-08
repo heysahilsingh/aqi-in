@@ -22,7 +22,8 @@ function AqiScale(props: Props) {
             } grow min-w-[83px] flex items-center justify-center`}
           >
             <div
-              className={`border-b-[${bar.color}] w-0 h-0  border-l-[6px] border-l-transparent rotate-180 border-b-[8px] border-r-[6px] border-r-transparent`}
+              className={`w-0 h-0  border-l-[6px] border-l-transparent rotate-180 border-b-[8px] border-r-[6px] border-r-transparent`}
+              style={{ borderBottomColor: bar.color }}
             ></div>
           </div>
         ))}
@@ -34,7 +35,10 @@ function AqiScale(props: Props) {
             className="r flex items-center justify-center flex-col grow min-w-[83px]"
           >
             <span>{bar.title}</span>
-            <div className={`bg-[${bar.color}] w-full h-[4px]`}></div>
+            <div
+              className={`w-full h-[4px]`}
+              style={{ backgroundColor: bar.color }}
+            ></div>
           </div>
         ))}
       </div>

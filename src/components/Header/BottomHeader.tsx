@@ -44,7 +44,10 @@ const BottomHeader = (props: Props) => {
             <div className="flex gap-2 items-center text-[12px] font-semibold text-[#4C4F57]">
               <span className="">{data.area}</span>
               <span className="text-[9px] text-[#667580]">{data.wind}</span>
-              <span className={`pl-8 text-[16px] text-[${data.aqi.status}]`}>
+              <span
+                className={`pl-8 text-[16px] font-extrabold text-transparent bg-clip-text`}
+                style={{ backgroundColor: data.aqi.status }}
+              >
                 {data.aqi.range}
               </span>
               <span className="-mx-1 text-[9px] text-[#667580]">AQI</span>

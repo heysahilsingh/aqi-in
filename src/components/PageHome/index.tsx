@@ -4,6 +4,8 @@ import HistoricData from "../HistoricData";
 import Map from "../Map";
 import Pollutants from "../Pollutants";
 import RealtimeAqi from "./RealtimeAqi";
+import MetroCities from "./MetroCities";
+import WorldCities from "./WorldCities";
 
 type Props = {};
 
@@ -11,6 +13,7 @@ const pageData = {
   areaName: "Paschim Vihar",
   cityName: "New Delhi",
   cityRank: "67",
+  aqi: 46,
   rankColor: "#C92033",
   pollutants: [
     {
@@ -53,6 +56,170 @@ const pageData = {
   healthAdvisory: {
     cigaretteCount: "20",
   },
+  metroCities: [
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+    {
+      name: "New Delhi",
+      aqi: 48,
+      pm2_5: 30,
+      pm10: 34,
+      ozone: 54,
+      co: 22,
+      so2: 54,
+      no2: 32,
+    },
+  ],
+  worldCities: [
+    {
+      name: "Noida, India",
+      rank: 1,
+      aqi: 48,
+      aqiStatus: "good",
+      standardValueText: "below",
+      standardValue: 0,
+      follows: true,
+      img: "/india.png",
+    },
+    {
+      name: "Dhaka, Bangladesh",
+      rank: 1,
+      aqi: 56,
+      aqiStatus: "moderate",
+      standardValueText: "above",
+      standardValue: 2,
+      follows: false,
+      img: "/bangladesh.png",
+    },
+    {
+      name: "Noida, India",
+      rank: 1,
+      aqi: 48,
+      aqiStatus: "good",
+      standardValueText: "below",
+      standardValue: 0,
+      follows: true,
+      img: "/india.png",
+    },
+    {
+      name: "Dhaka, Bangladesh",
+      rank: 1,
+      aqi: 56,
+      aqiStatus: "moderate",
+      standardValueText: "above",
+      standardValue: 2,
+      follows: false,
+      img: "/bangladesh.png",
+    },
+    {
+      name: "Noida, India",
+      rank: 1,
+      aqi: 20,
+      aqiStatus: "good",
+      standardValueText: "below",
+      standardValue: 0,
+      follows: true,
+      img: "/india.png",
+    },
+    {
+      name: "Dhaka, Bangladesh",
+      rank: 1,
+      aqi: 56,
+      aqiStatus: "moderate",
+      standardValueText: "above",
+      standardValue: 2,
+      follows: false,
+      img: "/bangladesh.png",
+    },
+    {
+      name: "Noida, India",
+      rank: 1,
+      aqi: 48,
+      aqiStatus: "good",
+      standardValueText: "below",
+      standardValue: 0,
+      follows: true,
+      img: "/india.png",
+    },
+    {
+      name: "Dhaka, Bangladesh",
+      rank: 1,
+      aqi: 56,
+      aqiStatus: "moderate",
+      standardValueText: "above",
+      standardValue: 2,
+      follows: false,
+      img: "/bangladesh.png",
+    },
+    {
+      name: "Noida, India",
+      rank: 1,
+      aqi: 48,
+      aqiStatus: "good",
+      standardValueText: "below",
+      standardValue: 0,
+      follows: true,
+      img: "/india.png",
+    },
+    {
+      name: "Dhaka, Bangladesh",
+      rank: 1,
+      aqi: 56,
+      aqiStatus: "moderate",
+      standardValueText: "above",
+      standardValue: 2,
+      follows: false,
+      img: "/bangladesh.png",
+    },
+  ],
 };
 
 function PageHome({}: Props) {
@@ -78,6 +245,7 @@ function PageHome({}: Props) {
               aqiStatus="good"
               aqiMsg="You can go outside without fear and enjoy the day"
               aqiModelImgUrl="/aqimodel-good.png"
+              aqi={pageData.aqi}
             />
           </section>
           <section className="pollutants -mt-6 gap-14 flex flex-col  bg-white rounded-b-xl px-10 pt-12 pb-8 w-[1030px] shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)]">
@@ -641,6 +809,9 @@ function PageHome({}: Props) {
                 <div className="rounded px-5 py-2.5">Month</div>
               </div>
             </div>
+            <div className="metro-cities-data">
+              <MetroCities data={pageData.metroCities} />
+            </div>
             <span className="last-updated opacity-50 text-right text-[#667580] text-[12px]">
               Last Updated : 19th April 23 ; 5:54pm
             </span>
@@ -679,7 +850,8 @@ function PageHome({}: Props) {
                   >
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-[15px] h-[15px] rounded-[3px] bg-[${status.color}]`}
+                        className={`w-[15px] h-[15px] rounded-[3px]`}
+                        style={{ backgroundColor: status.color }}
                       ></div>
                       <span className="text-[13px] text-[#31343D] font-bold">
                         {status.title}
@@ -702,7 +874,7 @@ function PageHome({}: Props) {
                 ))}
               </div>
               <div className="cursor-pointer flex w-full justify-center text-[#4BA9FF] gap-3 leading-none items-center">
-                <span>Load More</span>
+                <span>View More</span>
                 <svg
                   width="22"
                   height="4"
@@ -740,6 +912,155 @@ function PageHome({}: Props) {
                   particular location.
                 </p>
               </div>
+            </div>
+          </section>
+          <section className="metro-cities flex flex-col gap-8 bg-white rounded-xl px-10 py-8 w-[1070px] shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)]">
+            <div className="header flex gap-6 justify-between items-center">
+              <div className="flex flex-col w-[40%]">
+                <span className="text-[14px] text-[#667580] flex items-center gap-2">
+                  <div className="bg-[#E75835] w-[6px] h-[6px] rounded-full"></div>
+                  Live AQI
+                </span>
+                <span className="text-[18px] text-[#31343D] font-bold">
+                  World Most Polluted Cities
+                </span>
+              </div>
+              <div className="bg-[#BEBEBE] w-[1px] h-[50px] opacity-50"></div>
+              <p className="text-[16px] text-[#677580]">
+                Air Quality Index depicts the extent of air pollution at a
+                particular location. Find out whether your location is among the
+                most polluted.
+              </p>
+            </div>
+            <div className="filters flex leading-none text-[12px] justify-end w-full items-center">
+              <div className="flex w-ft border-b">
+                <div className="rounded bg-[#4BA9FF] px-5 py-2.5 text-white">
+                  City Rankings
+                </div>
+                <div className="rounded px-5 py-2.5">Country Rankings</div>
+              </div>
+            </div>
+            <div className="metro-cities-data">
+              <WorldCities
+                data={[
+                  {
+                    name: "Noida, India",
+                    rank: 1,
+                    aqi: 48,
+                    aqiStatus: "good",
+                    standardValueText: "below",
+                    standardValue: 0,
+                    follows: true,
+                    img: "/india.png",
+                  },
+                  {
+                    name: "Dhaka, Bangladesh",
+                    rank: 1,
+                    aqi: 56,
+                    aqiStatus: "moderate",
+                    standardValueText: "above",
+                    standardValue: 2,
+                    follows: false,
+                    img: "/bangladesh.png",
+                  },
+                  {
+                    name: "Noida, India",
+                    rank: 1,
+                    aqi: 48,
+                    aqiStatus: "good",
+                    standardValueText: "below",
+                    standardValue: 0,
+                    follows: true,
+                    img: "/india.png",
+                  },
+                  {
+                    name: "Dhaka, Bangladesh",
+                    rank: 1,
+                    aqi: 56,
+                    aqiStatus: "moderate",
+                    standardValueText: "above",
+                    standardValue: 2,
+                    follows: false,
+                    img: "/bangladesh.png",
+                  },
+                  {
+                    name: "Noida, India",
+                    rank: 1,
+                    aqi: 20,
+                    aqiStatus: "good",
+                    standardValueText: "below",
+                    standardValue: 0,
+                    follows: true,
+                    img: "/india.png",
+                  },
+                  {
+                    name: "Dhaka, Bangladesh",
+                    rank: 1,
+                    aqi: 56,
+                    aqiStatus: "moderate",
+                    standardValueText: "above",
+                    standardValue: 2,
+                    follows: false,
+                    img: "/bangladesh.png",
+                  },
+                  {
+                    name: "Noida, India",
+                    rank: 1,
+                    aqi: 48,
+                    aqiStatus: "good",
+                    standardValueText: "below",
+                    standardValue: 0,
+                    follows: true,
+                    img: "/india.png",
+                  },
+                  {
+                    name: "Dhaka, Bangladesh",
+                    rank: 1,
+                    aqi: 56,
+                    aqiStatus: "moderate",
+                    standardValueText: "above",
+                    standardValue: 2,
+                    follows: false,
+                    img: "/bangladesh.png",
+                  },
+                  {
+                    name: "Noida, India",
+                    rank: 1,
+                    aqi: 48,
+                    aqiStatus: "good",
+                    standardValueText: "below",
+                    standardValue: 0,
+                    follows: true,
+                    img: "/india.png",
+                  },
+                  {
+                    name: "Dhaka, Bangladesh",
+                    rank: 1,
+                    aqi: 56,
+                    aqiStatus: "moderate",
+                    standardValueText: "above",
+                    standardValue: 2,
+                    follows: false,
+                    img: "/bangladesh.png",
+                  },
+                ]}
+              />
+            </div>
+            <div className="cursor-pointer flex w-full justify-center text-[#4BA9FF] gap-3 leading-none items-center">
+              <span>View More</span>
+              <svg
+                width="22"
+                height="4"
+                viewBox="0 0 22 4"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.778564 2.49057H19.2911L16.7079 0.545898"
+                  stroke="#4BA9FF"
+                  stroke-width="1.29645"
+                />
+              </svg>
             </div>
           </section>
         </div>

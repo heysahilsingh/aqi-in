@@ -1,4 +1,5 @@
 import React from "react";
+import ChartHistoricData from "./ChartHistoricData";
 
 type Props = {
   areaName: string;
@@ -166,7 +167,7 @@ function HistoricData(props: Props) {
             </svg>
           </div>
 
-          <div className="w-fit cursor-pointer leading-none text-[12px] flex items-center px-4 py-2 gap-2 border-2 bg-[#F7F7FC] border-zinc-300 rounded-md">
+          <div className="w-fit cursor-pointer leading-none text-[12px] flex items-center px-4 py-2 gap-2 border-2 border-zinc-300 rounded-md">
             PM10 (μg/m3)
             <svg
               width="14"
@@ -184,7 +185,7 @@ function HistoricData(props: Props) {
               />
             </svg>
           </div>
-          <div className="w-fit cursor-pointer leading-none text-[12px] flex items-center px-4 py-2 gap-2 border-2 bg-[#F7F7FC] border-zinc-300 rounded-md">
+          <div className="w-fit cursor-pointer leading-none text-[12px] flex items-center px-4 py-2 gap-2 border-2 border-zinc-300 rounded-md">
             24 hours
             <svg
               width="14"
@@ -203,7 +204,9 @@ function HistoricData(props: Props) {
             </svg>
           </div>
         </div>
-        <div className="chart w-full h-[100px] bg-zinc-100"></div>
+        <div className="chart">
+          <ChartHistoricData />
+        </div>
         <div className="who flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 leading-none">
             <div className="w-[10px] h-[10px] rounded-full bg-[#3988FF]"></div>

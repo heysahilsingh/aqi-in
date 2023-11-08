@@ -9,7 +9,8 @@ function Pollutants(props: Props) {
   return (
     <div className="border-2 border-white cursor-pointer hover:border-[#A3A3C8] min-w-[260px] flex flex-col rounded-lg overflow-hidden bg-[#F7F7FC] text-[#667580] text-[12px]">
       <div
-        className={`border-${props.color} flex items-center px-4 py-3 gap-3 border-l-4 leading-none`}
+        className={`flex items-center px-4 py-3 gap-3 border-l-4 leading-none`}
+        style={{ borderColor: props.color }}
       >
         <i className="icon">
           <svg
