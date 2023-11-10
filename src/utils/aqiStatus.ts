@@ -17,9 +17,9 @@ const aqiStatus = (
     else if(data === "img") {
         if(aqiNumber < 51) return "/aqimodel-good.png";
         if(aqiNumber < 101) return "/aqimodel-moderate.png";
-        if(aqiNumber < 151) return "/aqimodel-poor.png";
-        if(aqiNumber < 201) return "/aqimodel-unhealthy.png";
-        if(aqiNumber < 301) return "/aqimodel-severe.png";
+        if(aqiNumber < 201) return "/aqimodel-poor.png";
+        if(aqiNumber < 301) return "/aqimodel-unhealthy.png";
+        if(aqiNumber < 401) return "/aqimodel-severe.png";
         return "/aqimodel-hazardous.png";
     }
 
