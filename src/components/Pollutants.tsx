@@ -1,8 +1,10 @@
 type Props = {
   name: string;
   unit: string;
-  value: string;
+  value: number;
   color: string;
+  average?: { period: string; data: number }[];
+  icon?: string;
 };
 
 function Pollutants(props: Props) {
@@ -200,7 +202,7 @@ function Pollutants(props: Props) {
             />
           </svg>
         </i>
-        <div className="name">{props.name}</div>
+        <div className="name uppercase">{props.name}</div>
         <div className="measure flex justify-end items-end grow">
           <span className="font-bold text-[#31343D] text-[18px]">
             {props.value}

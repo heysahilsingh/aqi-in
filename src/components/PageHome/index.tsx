@@ -19,37 +19,37 @@ const pageData = {
   pollutants: [
     {
       name: "PM 2.5",
-      value: "344",
+      value: 344,
       unit: "μg/m3",
       color: "#59B61F",
     },
     {
       name: "PM 10",
-      value: "344",
+      value: 344,
       unit: "μg/m3",
       color: "#EA8C34",
     },
     {
       name: "O3",
-      value: "344",
+      value: 344,
       unit: "ppb",
       color: "#59B61F",
     },
     {
       name: "CO",
-      value: "344",
+      value: 344,
       unit: "ppm",
       color: "#EEC732",
     },
     {
       name: "NO2",
-      value: "344",
+      value: 344,
       unit: "ppb",
       color: "#59B61F",
     },
     {
       name: "SO2",
-      value: "344",
+      value: 344,
       unit: "ppb",
       color: "#E95478",
     },
@@ -239,7 +239,7 @@ async function PageHome({}: Props) {
   const saData = response.Locations[2];
 
   const aqiNumber = saData.airComponents.find(
-    (comp: { sensorName: string }) => comp.sensorName === "aqi"
+    (comp: { senDevId: string }) => comp.senDevId === "AQI-IN"
   ).sensorData;
 
   const aqiStatusText = aqiStatus(aqiNumber, "text")?.toLowerCase();
@@ -278,15 +278,25 @@ async function PageHome({}: Props) {
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-x-16 gap-y-8">
-                {pageData.pollutants.map((pollutant) => (
-                  <Pollutants
-                    key={pollutant.name}
-                    name={pollutant.name}
-                    value={pollutant.value}
-                    unit={pollutant.unit}
-                    color={pollutant.color}
-                  />
-                ))}
+                {saData.airComponents
+                  .filter(
+                    (option: any) =>
+                      option.sensorName === "pm25" ||
+                      option.sensorName === "pm10" ||
+                      option.sensorName === "o3" ||
+                      option.sensorName === "co" ||
+                      option.sensorName === "no2" ||
+                      option.sensorName === "so2"
+                  )
+                  .map((pollutant: any, index: number) => (
+                    <Pollutants
+                      key={index}
+                      name={pollutant.sensorName}
+                      value={pollutant.sensorData}
+                      unit={pollutant.sensorUnit}
+                      color={aqiStatus(pollutant.sensorData, "color")}
+                    />
+                  ))}
               </div>
             </div>
             <div className="col2 gap-6 flex flex-col">

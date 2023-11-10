@@ -8,9 +8,9 @@ const aqiStatus = (
     if(data === "text"){
         if(aqiNumber < 51) return "Good";
         if(aqiNumber < 101) return "Moderate";
-        if(aqiNumber < 151) return "Poor";
-        if(aqiNumber < 201) return "Unhealthy";
-        if(aqiNumber < 301) return "Severe";
+        if(aqiNumber < 201) return "Poor";
+        if(aqiNumber < 301) return "Unhealthy";
+        if(aqiNumber < 401) return "Severe";
         return "Hazardous";
     }
 

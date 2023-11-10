@@ -21,7 +21,7 @@ type Props = {
 };
 
 const RealtimeAqi = (props: Props) => {
-  const getColorById = (
+  const color = (
     AQI_STATUSES.find((status) => status.id === props.aqiStatus) || {}
   ).color;
 
@@ -189,7 +189,7 @@ const RealtimeAqi = (props: Props) => {
           <div className="flex gap-6">
             <div className="col1 aqi grow flex gap-4 items-center bg-[#F7F7FC] rounded-lg p-4">
               <div className="w-[135px] -mt-16">
-                <AqiMeter value={props.aqi} color={getColorById} />
+                <AqiMeter value={props.aqi} color={color} />
               </div>
               <div className="live flex flex-col gap-2 leading-none min-w-fit">
                 <div className="flex gap-2 items-center">
@@ -206,7 +206,7 @@ const RealtimeAqi = (props: Props) => {
                 </div>
                 <div
                   className="status text-transparent font-extrabold text-[24px] bg-clip-text capitalize"
-                  style={{ backgroundColor: getColorById }}
+                  style={{ backgroundColor: color }}
                 >
                   {aqiStatus(props.aqi, "text")}
                 </div>
