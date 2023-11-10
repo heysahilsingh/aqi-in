@@ -5,7 +5,25 @@ type Props = {
   areaName: string;
 };
 
-function HistoricData(props: Props) {
+async function HistoricData(props: Props) {
+  const data = await fetch(
+    "https://api.aqi.in/api/v1/getLocationHistory24Hourinterview",
+    {
+      headers: {
+        locationid: "PLLODA000004",
+        searchtype: "locationId",
+        sendevid: "AQI-IN",
+      },
+    }
+  );
+
+  const response = await data.json();
+
+  const saData = response.Table;
+
+  const min = saData.Data[0].minValue;
+  const max = saData.Data[0].maxValue;
+
   return (
     <div className="historic-data flex flex-col w-full">
       <div className="data flex flex-col gap-6 px-10 pt-8 pb-8 w-full">
@@ -205,7 +223,10 @@ function HistoricData(props: Props) {
           </div>
         </div>
         <div className="chart">
-          <ChartHistoricData />
+          <ChartHistoricData
+            labels={saData.Data[0].timeArray2}
+            data={saData.Data[0].averageArray}
+          />
         </div>
         <div className="who flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 leading-none">
@@ -239,12 +260,12 @@ function HistoricData(props: Props) {
               <div className="w-[7px] h-[7px] rounded-full bg-[#3DBE34]"></div>
               <p className="text-[#3DBE34]">Min</p>
             </div>
-            <span>9 μg/m3</span>
+            <span>{min} μg/m3</span>
             <div className="max ml-4 flex items-center gap-2">
               <div className="w-[7px] h-[7px] rounded-full bg-[#C92033]"></div>
               <p className="text-[#C92033]">Max</p>
             </div>
-            <span>45 μg/m3</span>
+            <span>{max} μg/m3</span>
           </div>
         </div>
       </div>

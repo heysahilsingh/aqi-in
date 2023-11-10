@@ -33,7 +33,7 @@ const AqiMeter = (props: Props) => {
     datasets: [
       {
         label: "# of Votes",
-        data: [value, 100 - value],
+        data: [value, 500 - value],
         backgroundColor: [color, bgColor],
         borderWidth: 0,
         circumference: 250,

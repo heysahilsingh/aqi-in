@@ -6,6 +6,7 @@ import Pollutants from "../Pollutants";
 import RealtimeAqi from "./RealtimeAqi";
 import MetroCities from "./MetroCities";
 import WorldCities from "./WorldCities";
+import aqiStatus from "@/utils/aqiStatus";
 
 type Props = {};
 
@@ -222,7 +223,27 @@ const pageData = {
   ],
 };
 
-function PageHome({}: Props) {
+async function PageHome({}: Props) {
+  const data = await fetch(
+    "https://api.aqi.in/api/v1/getNearestLocationforinterview",
+    {
+      headers: {
+        lat: "28.6497478",
+        lon: "77.137371",
+      },
+    }
+  );
+
+  const response = await data.json();
+
+  const saData = response.Locations[2];
+
+  const aqiNumber = saData.airComponents.find(
+    (comp: { sensorName: string }) => comp.sensorName === "aqi"
+  ).sensorData;
+
+  const aqiStatusText = aqiStatus(aqiNumber, "text")?.toLowerCase();
+
   return (
     <>
       <div className="home-page">
@@ -233,19 +254,19 @@ function PageHome({}: Props) {
           </section>
           <section className="real-time-aqi shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)] z-[1]">
             <RealtimeAqi
-              areaName="Paschim Vihar, New delhi, India"
-              nearestMonitorDIstance="0.8 km"
+              areaName={`${saData.locationName}, ${saData.cityName}, ${saData.countryName}`}
+              nearestMonitorDIstance={`${saData.distance} km`}
               likes="20.6k"
-              windSpeed="11 km/hr"
-              weatherMsg="Mostly sunny"
-              temprature="35°"
-              humidity="70%"
-              grow="43"
-              lastUpdated="2 hr"
-              aqiStatus="good"
-              aqiMsg="You can go outside without fear and enjoy the day"
-              aqiModelImgUrl="/aqimodel-good.png"
-              aqi={pageData.aqi}
+              windSpeed={`${saData.weatherdata.wind_kph} km'h`}
+              weatherMsg={saData.weatherdata.condition.text}
+              temprature={`${saData.weatherdata.temp_c}°`}
+              humidity={`${saData.weatherdata.humidity}%`}
+              grow={`${saData.weatherdata.wind_degree}`}
+              lastUpdated={`${saData.timeago}`}
+              aqiStatus={aqiStatusText}
+              aqiMsg="I lack API data for this message."
+              aqiModelImgUrl={aqiStatus(aqiNumber, "img")}
+              aqi={aqiNumber}
             />
           </section>
           <section className="pollutants -mt-6 gap-14 flex flex-col  bg-white rounded-b-xl px-10 pt-12 pb-8 w-[1030px] shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)]">
@@ -744,7 +765,7 @@ function PageHome({}: Props) {
           </section>
           <section className="historic-data flex justify-center items-center flex-col">
             <div className="chart bg-white z-20 rounded-xl overflow-hidden flex w-[1070px] shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)]">
-              <HistoricData areaName={pageData.areaName} />
+              <HistoricData areaName={saData.locationName} />
             </div>
             <div className="bg-white flex justify-between gap-4 rounded-b-xl px-12 py-4 overflow-hidden w-[990px] shadow-[0px_7px_20px_0_rgba(0,0,0,0.05)]">
               <p className="text-[#677580]">Want a complete report?</p>

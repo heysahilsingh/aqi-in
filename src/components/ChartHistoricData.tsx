@@ -10,7 +10,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
+import { ChartSa } from "./ChartSa";
+import { aqiColors } from "@/constants/AQI_STATUSES";
+import aqiStatus from "@/utils/aqiStatus";
 
 ChartJS.register(
   CategoryScale,
@@ -42,6 +45,10 @@ const options = {
         display: true,
         text: "Time",
       },
+      ticks: {
+        maxRotation: 0,
+        minRotation: 0,
+      },
     },
     y: {
       beginAtZero: true,
@@ -59,10 +66,13 @@ const options = {
   },
 };
 
-type Props = {};
+type Props = {
+  labels?: string[];
+  data?: number[];
+};
 
-function ChartHistoricData({}: Props) {
-  const labels = [
+function ChartHistoricData(props: Props) {
+  const chartLabels = props.labels || [
     "2pm",
     "4pm",
     "6pm",
@@ -77,10 +87,13 @@ function ChartHistoricData({}: Props) {
     "12pm",
   ];
 
+  const chartData =
+    props.data || chartLabels.map(() => Math.floor(Math.random() * 500) + 100);
+
   // @ts-ignore
   let width, height, gradient;
   // @ts-ignore
-  const getGradient = (ctx, chartArea) => {
+  const getGradient = (ctx, chartArea, maxAqi) => {
     const chartWidth = chartArea.right - chartArea.left;
     const chartHeight = chartArea.bottom - chartArea.top;
     // @ts-ignore
@@ -95,22 +108,31 @@ function ChartHistoricData({}: Props) {
         0,
         chartArea.top
       );
-      gradient.addColorStop(0.2, "#59B61F"); // 20%
-      gradient.addColorStop(0.4, "#EEC732"); // 40%
-      gradient.addColorStop(0.6, "#EA8C34"); // 60%
-      gradient.addColorStop(0.8, "#E95478"); // 80%
-      gradient.addColorStop(1, "#B33FBA"); // 100%
+
+      // Array to store the colors
+      let colorsArray = [];
+
+      // Run the function 600 times and store the results in the array
+      for (let i = 0; i < maxAqi; i++) {
+        let color = aqiStatus(i, "color");
+        colorsArray.push(color);
+      }
+
+      for (let i = 0; i < colorsArray.length; i++) {
+        const count = i / colorsArray.length;
+        gradient.addColorStop(count, colorsArray[i]);
+      }
     }
 
     return gradient;
   };
 
   const data = {
-    labels,
+    labels: chartLabels,
     datasets: [
       {
         label: "AQI",
-        data: labels.map(() => Math.floor(Math.random() * 500) + 100),
+        data: chartData,
         tension: 0.5,
         pointRadius: 5,
         borderWidth: 2.5,
@@ -126,7 +148,7 @@ function ChartHistoricData({}: Props) {
             // This case happens on initial chart load
             return;
           }
-          return getGradient(ctx, chartArea);
+          return getGradient(ctx, chartArea, Math.max(...chartData));
         },
         // @ts-ignore
         backgroundColor: function (context) {
@@ -137,7 +159,7 @@ function ChartHistoricData({}: Props) {
             // This case happens on initial chart load
             return;
           }
-          return getGradient(ctx, chartArea);
+          return getGradient(ctx, chartArea, Math.max(...chartData));
         },
       },
     ],
@@ -146,6 +168,7 @@ function ChartHistoricData({}: Props) {
   return (
     <div className="h-[325px] w-full">
       <Line options={options} data={data} />
+      {/* <ChartSa /> */}
     </div>
   );
 }

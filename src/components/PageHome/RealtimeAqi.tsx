@@ -2,6 +2,7 @@ import React from "react";
 import AqiScale from "./AqiScale";
 import AqiMeter from "../AqiMeter";
 import AQI_STATUSES from "@/constants/AQI_STATUSES";
+import aqiStatus from "@/utils/aqiStatus";
 
 type Props = {
   areaName: string;
@@ -11,18 +12,12 @@ type Props = {
   weatherMsg: string;
   aqiMsg: string;
   aqi: number;
-  aqiModelImgUrl: string;
+  aqiModelImgUrl: any;
   temprature: string;
   humidity: string;
   grow: string;
   lastUpdated: string;
-  aqiStatus:
-    | "good"
-    | "moderate"
-    | "poor"
-    | "unhealthy"
-    | "severe"
-    | "hazardous";
+  aqiStatus: any;
 };
 
 const RealtimeAqi = (props: Props) => {
@@ -213,11 +208,11 @@ const RealtimeAqi = (props: Props) => {
                   className="status text-transparent font-extrabold text-[24px] bg-clip-text capitalize"
                   style={{ backgroundColor: getColorById }}
                 >
-                  {props.aqiStatus}
+                  {aqiStatus(props.aqi, "text")}
                 </div>
                 <span className="pt-2 text-[12px] text-[#859199]">
                   Last Updated:{" "}
-                  <span className="font-semibold">{props.lastUpdated} ago</span>
+                  <span className="font-semibold">{props.lastUpdated}</span>
                 </span>
               </div>
               <div className="opacity-50 bg-[#BEBEBE] w-[1px] mx-4 h-[80px]"></div>
@@ -232,7 +227,7 @@ const RealtimeAqi = (props: Props) => {
                 />
               </div>
             </div>
-            <div className="col2 weather relative min-w-fit items-center flex gap-3 border border-[#677580]/10 rounded-lg py-4 px-5">
+            <div className="col2 weather relative w-[400px] items-center flex gap-2 border border-[#677580]/10 rounded-lg py-4 px-5">
               <div className="img -mt-8 -ml-5 h-full">
                 <img
                   className="object-contain"
@@ -271,7 +266,7 @@ const RealtimeAqi = (props: Props) => {
                   </span>
                 </div>
               </div>
-              <div className="w-[1px] h-full opacity-30 bg-[#BEBEBE] mx-5"></div>
+              <div className="w-[1px] h-full opacity-30 bg-[#BEBEBE] mr-2"></div>
               <div className="wind flex flex-col justify-between py-1 h-full">
                 <div className="flex gap-2 items-center">
                   <div className="icon">
