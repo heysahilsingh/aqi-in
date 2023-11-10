@@ -2,7 +2,7 @@ type Props = {
   name: string;
   unit: string;
   value: number;
-  color: string;
+  color: string | undefined;
   average?: { period: string; data: number }[];
   icon?: string;
 };
