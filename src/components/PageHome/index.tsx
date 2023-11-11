@@ -7,7 +7,7 @@ import RealtimeAqi from "./RealtimeAqi";
 import MetroCities from "./MetroCities";
 import WorldCities from "./WorldCities";
 import aqiStatus from "@/utils/aqiStatus";
-import ConsoleLogClient from "@/utils/consoleLogClient";
+import ConsoleLogClient from "@/utils/ConsoleLogClient";
 
 type Props = {};
 
