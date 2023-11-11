@@ -7,6 +7,7 @@ import RealtimeAqi from "./RealtimeAqi";
 import MetroCities from "./MetroCities";
 import WorldCities from "./WorldCities";
 import aqiStatus from "@/utils/aqiStatus";
+import ConsoleLogClient from "@/utils/consoleLogClient";
 
 type Props = {};
 
@@ -244,6 +245,24 @@ async function PageHome({}: Props) {
 
   const aqiStatusText = aqiStatus(aqiNumber, "text")?.toLowerCase();
 
+  const filteredMajorPollutants = saData.airComponents.filter(
+    (option: any) =>
+      option.sensorName === "pm25" ||
+      option.sensorName === "pm10" ||
+      option.sensorName === "o3" ||
+      option.sensorName === "co" ||
+      option.sensorName === "no2" ||
+      option.sensorName === "so2"
+  );
+
+  const majorPollutantsSortOrder = ["pm25", "pm10", "o3", "co", "no2", "so2"];
+
+  const majorPollutans = filteredMajorPollutants.sort((a: any, b: any) => {
+    const aIndex = majorPollutantsSortOrder.indexOf(a.sensorName);
+    const bIndex = majorPollutantsSortOrder.indexOf(b.sensorName);
+    return aIndex - bIndex;
+  });
+
   return (
     <>
       <div className="home-page">
@@ -274,10 +293,10 @@ async function PageHome({}: Props) {
               <div className="heading text-lg flex items-center">
                 <h2 className="font-bold">Major Pollutants in</h2>
                 <span className=" text-[#667580]">
-                  &nbsp; {pageData.areaName}
+                  &nbsp; {saData.locationName}
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-x-16 gap-y-8">
+              {/* <div className="grid grid-cols-3 gap-x-16 gap-y-8">
                 {saData.airComponents
                   .filter(
                     (option: any) =>
@@ -295,15 +314,28 @@ async function PageHome({}: Props) {
                       value={pollutant.sensorData}
                       unit={pollutant.sensorUnit}
                       color={aqiStatus(pollutant.sensorData, "color")}
+                      icon={`/major-${pollutant.sensorName}.png`}
                     />
                   ))}
+              </div> */}
+              <div className="grid grid-cols-3 gap-x-16 gap-y-8">
+                {majorPollutans.map((pollutant: any, index: number) => (
+                  <Pollutants
+                    key={index}
+                    name={pollutant.sensorName}
+                    value={pollutant.sensorData}
+                    unit={pollutant.sensorUnit}
+                    color={aqiStatus(pollutant.sensorData, "color")}
+                    icon={`/major-${pollutant.sensorName}.png`}
+                  />
+                ))}
               </div>
             </div>
             <div className="col2 gap-6 flex flex-col">
               <div className="heading text-lg flex items-center">
                 <h2 className="font-bold">Lorem ipsum in</h2>
                 <span className=" text-[#667580]">
-                  &nbsp;{pageData.areaName}
+                  &nbsp;{saData.locationName}
                 </span>
               </div>
               <div className="flex gap-4 p-4 border justify-between items-center rounded-xl overflow-hidden">
@@ -413,12 +445,12 @@ async function PageHome({}: Props) {
                     <div className="heading text-lg flex items-center">
                       <h2 className="font-bold">Health Advice in</h2>
                       <span className=" text-[#667580]">
-                        &nbsp;{pageData.areaName}
+                        &nbsp;{saData.locationName}
                       </span>
                     </div>
                     <p className="text-[#677580]">
                       How to protect yourself from air pollution around{" "}
-                      {pageData.areaName}?
+                      {saData.locationName}?
                     </p>
                   </div>
                   <div className="link h-full">
@@ -1096,6 +1128,7 @@ async function PageHome({}: Props) {
           </section>
         </div>
         <footer className="p-10"></footer>
+        <ConsoleLogClient data={saData} />
       </div>
     </>
   );
