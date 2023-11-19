@@ -228,6 +228,7 @@ async function PageHome({}: Props) {
   const data = await fetch(
     "https://api.aqi.in/api/v1/getNearestLocationforinterview",
     {
+      cache: "no-store",
       headers: {
         lat: "28.6497478",
         lon: "77.137371",
