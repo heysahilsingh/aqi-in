@@ -9,6 +9,7 @@ async function HistoricData(props: Props) {
   const data = await fetch(
     "https://api.aqi.in/api/v1/getLocationHistory24Hourinterview",
     {
+      cache: "no-store",
       headers: {
         locationid: "PLLODA000004",
         searchtype: "locationId",
